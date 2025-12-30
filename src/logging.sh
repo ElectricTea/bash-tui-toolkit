@@ -3,10 +3,10 @@
 # @brief Provide logging helpers for structured logging
 
 # Log levels
-LOG_ERROR=3
-LOG_WARN=2
-LOG_INFO=1
 LOG_DEBUG=0
+LOG_INFO=1
+LOG_WARN=2
+LOG_ERROR=3
 
 # @description Parse log level from text representation to level number
 #
@@ -19,15 +19,20 @@ LOG_DEBUG=0
 # @example
 #   # Parse upper case log level
 #   parse_log_level "ERROR"
+# @example
+#   # Parse numericlog level
+#   parse_log_level 2
+#   parse_log_level "2"
+
 parse_log_level() {
   local level="$1"
   local parsed
 
   case "${level}" in
-      info | INFO)   parsed=$LOG_INFO; ;;
-      debug | DEBUG) parsed=$LOG_DEBUG; ;;
-      warn | WARN)   parsed=$LOG_WARN; ;;
-      error | ERROR) parsed=$LOG_ERROR; ;;
+      debug | DEBUG | 0) parsed=$LOG_DEBUG; ;;
+      info | INFO | 1)   parsed=$LOG_INFO; ;;
+      warn | WARN | 2)   parsed=$LOG_WARN; ;;
+      error | ERROR | 3) parsed=$LOG_ERROR; ;;
       *)             parsed=-1; ;;
   esac
 
@@ -52,14 +57,14 @@ log() {
   fi
 
   case "${level}" in
-      "$LOG_INFO")
-        level="INFO"
-        color='\033[1;36m'
-        ;;
-
       "$LOG_DEBUG")
         level="DEBUG"
         color='\033[1;34m'
+        ;;
+
+      "$LOG_INFO")
+        level="INFO"
+        color='\033[1;36m'
         ;;
 
       "$LOG_WARN")
