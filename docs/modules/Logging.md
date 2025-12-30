@@ -4,29 +4,73 @@ Provide logging helpers for structured logging
 
 ## Overview
 
-Parse log level from text representation to level number
+Log statements and log level parsing
 
 ## Index
 
-* [parse_log_level](#parse_log_level)
 * [log](#log)
+* [parse_log_level](#parse_log_level)
+
+### log
+
+Log output on a given level, checks if $LOG_LEVEL, if not set defaults to INFO
+
+#### Example logs
+
+```bash
+# numeric log level
+log 0 "This is a debug message"
+log 1 "This is an info message"
+log 2 "This is a warn message"
+log 3 "This is an error message"
+
+# string encapsalcated numeric log level
+log "0" "This is a debug message"
+log "1" "This is an info message"
+log "2" "This is a warn message"
+log "3" "This is an error message"
+
+# string variable name log level
+log "$LOG_DEBUG" "This is a debug message"
+log "$LOG_INFO" "This is an info message"
+log "$LOG_WARN" "This is a warn message"
+log "$LOG_ERROR" "This is an error message"
+```
+
+#### Arguments
+
+* **$1** (number): Numeric log level OR * **$1** (string): Variable name log level
+
+* **$2** (string): Message to output
+
+#### Output on stdout
+
+* Formatted log message with ANSI color codes
+
 
 ### parse_log_level
+
+Filter visability of log statements based on level
+
 
 Parse log level from text representation to level number
 
 #### Example
 
 ```bash
-# Parse lower case log level
-parse_log_level "info"
-# Parse upper case log level
-parse_log_level "ERROR"
+# Parse lower case debug log level
+parse_log_level "debug"
+# Parse upper case info log level
+parse_log_level "INFO"
+# Parse numeric warn log level
+parse_log_level 2
+# Parse string encapsulated number error log level
+parse_log_level "3"
 ```
 
 #### Arguments
 
-* **$1** (string): Log level to parse
+* **$1** (string) or (number): Log level to parse
 
 #### Variables set
 
@@ -35,25 +79,3 @@ parse_log_level "ERROR"
 #### Output on stdout
 
 * numeric log level
-
-### log
-
-Log output on a given level, checks if $LOG_LEVEL, if not set defaults to INFO
-
-#### Example
-
-```bash
-# Log a message on info level
-log "$LOG_INFO" "this is a info message"
-log "LOG_DEBUG" "i am only visible when \$LOG_LEVEL is debug"
-```
-
-#### Arguments
-
-* **$1** (number): Numeric log level
-* **$2** (string): Message to output
-
-#### Output on stdout
-
-* Formatted log message with ANSI color codes
-
