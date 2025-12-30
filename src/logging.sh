@@ -40,13 +40,19 @@ parse_log_level() {
 }
 
 # @description Log output on a given level, checks if $LOG_LEVEL, if not set defaults to INFO
-# @arg $1 number Numeric log level
+# @arg $1 numeric log level OR $1 string variable name log level
 # @arg $2 string Message to output
 # @stdout Formatted log message with ANSI color codes
-# @example
-#   # Log a message on info level
-#   log "$LOG_INFO" "this is a info message"
-#   log "LOG_DEBUG" "i am only visible when \$LOG_LEVEL is debug"
+# @examples
+# log 0 "This is a debug message"
+# log 1 "This is an info message"
+# log 2 "This is a warn message"
+# log 3 "This is an error message"
+# log "$LOG_DEBUG" "This is a debug message"
+# log "$LOG_INFO" "This is an info message"
+# log "$LOG_WARN" "This is a warn message"
+# log "$LOG_ERROR" "This is an error message"
+
 log() {
   local level="$1"
   local message="$2"
