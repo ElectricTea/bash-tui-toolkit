@@ -8,6 +8,29 @@ LOG_INFO=1
 LOG_WARN=2
 LOG_ERROR=3
 
+# @description Log at level using named function
+#
+# @arg $1 (optional) message to log
+# @ example
+#   # empty error message
+#   error
+# @example
+#   # error with message
+#   error "this is an error message!"
+
+error(){
+log "3" "$1"
+}
+warn(){
+log "2" "$1"
+}
+info(){
+log "1" "$1"
+}
+debug(){
+log "0" "$1"
+}
+
 # @description Parse log level from text representation to level number
 #
 # @arg $1 string Log level to parse
